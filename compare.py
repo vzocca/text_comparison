@@ -184,7 +184,12 @@ def compare(file1, file2):
     
     return text1, text2, diff
 
-
+#*****************************************************************************
+# @brief Create text commands to colourise text based on the +/- values
+# @param The text with the differences highlighted by +/-
+#
+# @return The text commands for the window
+#***************************************************************************** 
 def colourise_text(text):
     coloured_text = []
     cache = []
@@ -240,7 +245,6 @@ def colourise_text(text):
     
 def execute_command(text, window):
     #for command_string in text:
-        print(len(text))
         text = '\n'.join(text)
         
         try:
@@ -249,7 +253,12 @@ def execute_command(text, window):
         except Exception as e:
             print(f"Error executing the command: {e}")
         
-    
+#*****************************************************************************
+# @brief Create a window showing the two files and the differences between them
+# @param paths to the two files and their differences
+#
+# @return None
+#*****************************************************************************      
 def text_window(file1, file2, diff):
     layout = [  [psg.Text('Demonstration of Multiline Element Printing')],
                 [psg.MLine(key='-ML1-'+psg.WRITE_ONLY_KEY, size=(50,10))],
@@ -263,9 +272,10 @@ def text_window(file1, file2, diff):
     window['-ML1-'+psg.WRITE_ONLY_KEY].print(file1, text_color='red', background_color='yellow')
     window['-ML2-'+psg.WRITE_ONLY_KEY].print(file2, text_color='green', background_color='yellow')
     #window['-ML3-'+psg.WRITE_ONLY_KEY].print(diff, text_color='white', background_color='black')
+    #window['-ML3-'].print(diff, text_color='white', background_color='black')
 
     coloured_text = colourise_text(diff)
-    execute_command(coloured_text, window)
+    execute_command(coloured_text[:20], window)
 
     while True:             # Event Loop
         event, values = window.read(timeout=100)
@@ -300,8 +310,8 @@ def set_text(text):
         if event in (psg.WIN_CLOSED, 'Exit'):
             break
 
-f1_path = file_chooser()
-f2_path = file_chooser()
+#f1_path = file_chooser()
+#f2_path = file_chooser()
 
 f1_path = 'C:/Users/vzocc/Documents/GitHub/The-Wall/Chapters/Chapter0/The Hole in the Wall - Ch0.orig.txt'
 f2_path = 'C:/Users/vzocc/Documents/GitHub/The-Wall/Chapters/Chapter0/The Hole in the Wall - Ch0.txt'
@@ -309,6 +319,6 @@ f2_path = 'C:/Users/vzocc/Documents/GitHub/The-Wall/Chapters/Chapter0/The Hole i
 file1, file2, diff = compare(f1_path, f2_path)    
 
     
-#text_window(file1, file2, diff)
+text_window(file1, file2, diff)
 
 
